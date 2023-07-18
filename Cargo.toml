@@ -1,0 +1,12 @@
+[workspace]
+members = ["crates/*"]
+
+[workspace.package]
+version = "0.1.0"
+
+[workspace.dependencies]
+tokio = "1.28.2"
+axum = "0.6.18"
+
+shuttle-axum = "0.21.0"
+shuttle-runtime = "0.21.0"

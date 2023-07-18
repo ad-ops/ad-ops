@@ -1,0 +1,10 @@
+[package]
+name = "server"
+version.workspace = true
+edition = "2021"
+
+[dependencies]
+axum.workspace = true
+shuttle-axum.workspace = true
+shuttle-runtime.workspace = true
+tokio.workspace = true
