@@ -1,33 +1,8 @@
 [env]
 CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
 
-[tasks.package-readme-dev]
-env = { "INDEX_FILE" = "./crates/server/public/index.html" }
-cwd = "../.."
-script = '''
-mkdir -p ./crates/server/public
-rm -f $INDEX_FILE
-touch $INDEX_FILE
-cat <<EOT > $INDEX_FILE
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Me(ad-ops)</title>
-</head>
-<body>
-EOT
-cat README.md >> $INDEX_FILE
-cat <<EOT >> $INDEX_FILE
-</body>
-</html>
-EOT
-'''
-
-[tasks.blog-dev]
+[tasks.blog-build]
 install_crate = "mdbook"
-env = { "MDBOOK_BUILD__BUILD_DIR" = "../crates/server/public/blog" }
 cwd = "../../blog"
 command = "mdbook"
 args = ["build"]
@@ -39,7 +14,6 @@ args = ["shuttle", "run"]
 
 [tasks.blog-test]
 install_crate = "mdbook"
-env = { "MDBOOK_BUILD__BUILD_DIR" = "../crates/server/public/blog" }
 cwd = "../../blog"
 command = "mdbook"
 args = ["test"]
@@ -48,10 +22,11 @@ args = ["test"]
 command = "cargo"
 args = ["test", "--workspace"]
 
-[tasks.package-readme-prd]
+[tasks.package-readme]
 env = { "INDEX_FILE" = "./public/index.html" }
 cwd = "../.."
 script = '''
+mkdir -p ./public
 rm -f $INDEX_FILE
 touch $INDEX_FILE
 cat <<EOT > $INDEX_FILE
@@ -71,25 +46,52 @@ cat <<EOT >> $INDEX_FILE
 EOT
 '''
 
-[tasks.blog-prd]
-install_crate = "mdbook"
-env = { "MDBOOK_BUILD__BUILD_DIR" = "../public/blog" }
-cwd = "../../blog"
-command = "mdbook"
-args = ["build"]
-
 [tasks.shuttle-deploy]
 install_crate = "cargo-shuttle"
 command = "cargo"
 args = ["shuttle", "deploy"]
 
+[tasks.web-watch]
+install_crate = "dioxus-cli"
+cwd = "../web"
+command = "dioxus"
+args = ["serve"]
+
+[tasks.web-dev]
+install_crate = "dioxus-cli"
+cwd = "../web"
+command = "dioxus"
+args = ["build"]
+
+[tasks.web-prd]
+install_crate = "dioxus-cli"
+cwd = "../web"
+command = "dioxus"
+args = ["build", "--release"]
+
+[tasks.move-public-dev]
+env = { "INDEX_FILE" = "./public/index.html" }
+cwd = "../.."
+script = '''
+rm -rf ./crates/server/public
+cp -r ./public ./crates/server/
+'''
+
+[tasks.delete]
+cwd = "../.."
+script = '''
+rm -rf ./crates/server/public
+rm -rf ./public
+'''
 
 # Main commands
 [tasks.dev]
 env = { "MDBOOK_BUILD__BUILD_DIR" = "../crates/server/public/blog" }
 dependencies = [
-    "package-readme-dev",
-    "blog-dev",
+    "package-readme",
+    "blog-build",
+    "web-dev",
+    "move-public-dev",
     "shuttle-dev",
 ]
 
@@ -101,8 +103,9 @@ dependencies = [
 
 [tasks.deploy]
 dependencies = [
-    "package-readme-prd",
-    "blog-prd",
+    "package-readme",
+    "blog-build",
+    "web-prd",
     "shuttle-deploy",
 ]
 

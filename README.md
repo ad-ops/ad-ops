@@ -23,4 +23,7 @@ things added so far...
     <li>
         <a href="blog">blog</a>
     </li>
+    <li>
+        <a href="web">web</a>
+    </li>
 </ul>
