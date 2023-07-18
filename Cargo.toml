@@ -7,6 +7,8 @@ version = "0.1.0"
 [workspace.dependencies]
 tokio = "1.28.2"
 axum = "0.6.18"
+tower-http = { version = "0.4.0", features = ["fs"] }
 
 shuttle-axum = "0.21.0"
 shuttle-runtime = "0.21.0"
+shuttle-static-folder = "0.21.0"

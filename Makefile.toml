@@ -1,0 +1,107 @@
+[env]
+CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
+
+[tasks.package-readme-dev]
+env = { "INDEX_FILE" = "./crates/server/public/index.html" }
+cwd = "../.."
+script = '''
+mkdir -p ./crates/server/public
+rm -f $INDEX_FILE
+touch $INDEX_FILE
+cat <<EOT > $INDEX_FILE
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Me(ad-ops)</title>
+</head>
+<body>
+EOT
+cat README.md >> $INDEX_FILE
+cat <<EOT >> $INDEX_FILE
+</body>
+</html>
+EOT
+'''
+
+[tasks.blog-dev]
+install_crate = "mdbook"
+env = { "MDBOOK_BUILD__BUILD_DIR" = "../crates/server/public/blog" }
+cwd = "../../blog"
+command = "mdbook"
+args = ["build"]
+
+[tasks.shuttle-dev]
+install_crate = "cargo-shuttle"
+command = "cargo"
+args = ["shuttle", "run"]
+
+[tasks.blog-test]
+install_crate = "mdbook"
+env = { "MDBOOK_BUILD__BUILD_DIR" = "../crates/server/public/blog" }
+cwd = "../../blog"
+command = "mdbook"
+args = ["test"]
+
+[tasks.workspace-test]
+command = "cargo"
+args = ["test", "--workspace"]
+
+[tasks.package-readme-prd]
+env = { "INDEX_FILE" = "./public/index.html" }
+cwd = "../.."
+script = '''
+rm -f $INDEX_FILE
+touch $INDEX_FILE
+cat <<EOT > $INDEX_FILE
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Me(ad-ops)</title>
+</head>
+<body>
+EOT
+cat README.md >> $INDEX_FILE
+cat <<EOT >> $INDEX_FILE
+</body>
+</html>
+EOT
+'''
+
+[tasks.blog-prd]
+install_crate = "mdbook"
+env = { "MDBOOK_BUILD__BUILD_DIR" = "../public/blog" }
+cwd = "../../blog"
+command = "mdbook"
+args = ["build"]
+
+[tasks.shuttle-deploy]
+install_crate = "cargo-shuttle"
+command = "cargo"
+args = ["shuttle", "deploy"]
+
+
+# Main commands
+[tasks.dev]
+env = { "MDBOOK_BUILD__BUILD_DIR" = "../crates/server/public/blog" }
+dependencies = [
+    "package-readme-dev",
+    "blog-dev",
+    "shuttle-dev",
+]
+
+[tasks.test]
+dependencies = [
+    "blog-test",
+    "workspace-test",
+]
+
+[tasks.deploy]
+dependencies = [
+    "package-readme-prd",
+    "blog-prd",
+    "shuttle-deploy",
+]

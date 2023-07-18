@@ -1,0 +1,9 @@
+[book]
+authors = ["Adrian Opsahl"]
+language = "en"
+multilingual = false
+src = "src"
+title = "blog"
+
+[build]
+build-dir = "../public/blog"
