@@ -1,10 +1,9 @@
-<h1>
+<h1 align="center">
 Me(ad-ops)
 </h1>
-
-<p>
-Lurker programmer used to work mainly with C# and some Typescript/Javascript. I am now learning to use more Rust right now, but unfortunately also too lazy to write much here. Maybe in the future:).
-</p>
+<h3 align="center">
+Lurker programmer playing around with Rust and WebAssembly
+</h3>
 
 <p>
 This is an experiment using <a href="https://shuttle.rs" target="_blank">https://shuttle.rs</a> and assorted tools to make a server for my thoughts.
@@ -14,9 +13,12 @@ This is an experiment using <a href="https://shuttle.rs" target="_blank">https:/
 You can find it here: <a href="https://ad-ops.shuttleapp.rs" target="_blank">https://ad-ops.shuttleapp.rs</a>
 </p>
 
+<p>
+things added so far...
+</p>
 <ul>
     <li>
-        <a href="ttps://ad-ops.shuttleapp.rs">home</a>
+        <a href="https://ad-ops.shuttleapp.rs">home</a>
     </li>
     <li>
         <a href="blog">blog</a>
