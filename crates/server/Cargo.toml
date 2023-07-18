@@ -11,3 +11,4 @@ tower-http.workspace = true
 shuttle-axum.workspace = true
 shuttle-runtime.workspace = true
 shuttle-static-folder.workspace = true
+shuttle-persist.workspace = true
