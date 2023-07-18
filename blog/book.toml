@@ -3,7 +3,13 @@ authors = ["Adrian Opsahl"]
 language = "en"
 multilingual = false
 src = "src"
-title = "blog"
+title = "Blog"
+description = "A simple way to collect my thoughts"
 
+[output.html]
+default-theme = "ayu"
+git-repository-url = "https://github.com/ad-ops/ad-ops"
+git-repository-icon = "fa-github"
+    
 [build]
 build-dir = "../public/blog"

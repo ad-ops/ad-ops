@@ -105,3 +105,10 @@ dependencies = [
     "blog-prd",
     "shuttle-deploy",
 ]
+
+[tasks.blog-watch]
+install_crate = "mdbook"
+env = { "MDBOOK_BUILD__BUILD_DIR" = "../crates/server/public/blog" }
+cwd = "../../blog"
+command = "mdbook"
+args = ["watch", "--open"]
