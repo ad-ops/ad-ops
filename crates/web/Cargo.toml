@@ -7,6 +7,10 @@ edition = "2021"
 [dependencies]
 dioxus = "0.3.2"
 dioxus-web = "0.3.2"
+reqwest.workspace = true
+web-sys.workspace = true
+
+shared = { path = "../shared" }
 
 # Debug
 log = "0.4.19"

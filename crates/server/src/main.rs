@@ -1,6 +1,8 @@
 use std::path::PathBuf;
 
-use axum::{routing::get, Router, extract::State};
+use axum::{routing::get, Router, extract::State, Json};
+use chrono::{Utc, Duration};
+use shared::models::clicks::Clicks;
 use shuttle_persist::PersistInstance;
 use tower_http::services::ServeDir;
 
@@ -10,18 +12,27 @@ async fn hello_world() -> &'static str {
     "Hello, world!"
 }
 
-async fn get_clicks(state: State<AppState>) -> String {
+async fn get_clicks(state: State<AppState>) -> Json<Clicks> {
     let persist = &state.persist;
-    let clicks = persist.load::<u32>(CLICKS_KEY).unwrap_or_default();
-    clicks.to_string()
+    let clicks = persist.load::<Clicks>(CLICKS_KEY).unwrap_or_default();
+    Json(clicks)
 }
 
-async fn add_clicks(state: State<AppState>) -> String {
+async fn add_clicks(state: State<AppState>) -> Result<Json<Clicks>, String> {
     let persist = &state.persist;
-    let clicks = persist.load::<u32>(CLICKS_KEY).unwrap_or_default();
-    let new_value = clicks + 1;
-    let _persist_result = persist.save(CLICKS_KEY, new_value);
-    new_value.to_string()
+    let clicks = persist.load::<Clicks>(CLICKS_KEY).unwrap_or_default();
+    let now = Utc::now();
+    if now > clicks.last_click_ts + Duration::seconds(5) {
+        let clicks = Clicks {
+            amount: clicks.amount + 1,
+            last_click_ts: now,
+        };
+        let _ = persist.save(CLICKS_KEY, &clicks);
+        Ok(Json(clicks))
+    }
+    else {
+        Err("Clicks need to wait 5s".to_string())
+    }
 }
 
 #[derive(Clone)]
