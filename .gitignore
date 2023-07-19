@@ -2,3 +2,4 @@
 Secrets*.toml
 public
 shuttle_persist
+Cargo.lock
