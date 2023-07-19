@@ -56,7 +56,7 @@ fn app(cx: Scope) -> Element {
         });
     };
 
-    get_clicks();
+    // get_clicks();
     cx.render(rsx! (
         div {
             style: "text-align: center;",
