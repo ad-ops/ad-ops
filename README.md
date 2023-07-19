@@ -9,21 +9,17 @@ Lurker programmer playing around with Rust and WebAssembly
 This is an experiment using <a href="https://shuttle.rs" target="_blank">https://shuttle.rs</a> and assorted tools to make a server for my thoughts.
 </p>
 
-</p>
-You can find it here: <a href="https://ad-ops.shuttleapp.rs" target="_blank">https://ad-ops.shuttleapp.rs</a>
-</p>
-
 <p>
 things added so far...
 </p>
 <ul>
     <li>
-        <a href="https://ad-ops.shuttleapp.rs">home</a>
+        <a href="https://ad-ops.shuttleapp.rs">Home</a>
     </li>
     <li>
-        <a href="blog">blog</a>
+        <a href="https://ad-ops.shuttleapp.rs/blog">Blog (mdBook)</a>
     </li>
     <li>
-        <a href="web">web</a>
+        <a href="https://ad-ops.shuttleapp.rs/web">Web App (Dioxus)</a>
     </li>
 </ul>
