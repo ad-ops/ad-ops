@@ -49,7 +49,7 @@ async fn axum(
         persist,
     };
     let router = Router::new()
-        .nest_service("/", ServeDir::new(public_folder))
+        .nest_service("/", ServeDir::new(public_folder).precompressed_gzip())
         .route("/api/hello", get(hello_world))
         .route("/api/clicks", get(get_clicks).post(add_clicks))
         .with_state(state);

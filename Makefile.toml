@@ -84,13 +84,21 @@ rm -rf ./crates/server/public
 rm -rf ./public
 '''
 
+[tasks.gzip-public]
+cwd = "../.."
+script = '''
+gzip -rk public/*
+'''
+
 # Main commands
 [tasks.dev]
 env = { "MDBOOK_BUILD__BUILD_DIR" = "../crates/server/public/blog" }
 dependencies = [
+    "delete",
     "package-readme",
     "blog-build",
     "web-dev",
+    "gzip-public",
     "move-public-dev",
     "shuttle-dev",
 ]
@@ -103,9 +111,11 @@ dependencies = [
 
 [tasks.deploy]
 dependencies = [
+    "delete",
     "package-readme",
     "blog-build",
     "web-prd",
+    "gzip-public",
     "shuttle-deploy",
 ]
 
